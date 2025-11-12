@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IP and Button Page</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #f2f2f2;
+    text-align: center;
+    padding: 50px;
+  }
+
+  #ip-container {
+    background-color: #4CAF50;
+    color: white;
+    padding: 20px;
+    margin-bottom: 30px;
+    border-radius: 10px;
+    font-size: 20px;
+  }
+
+  #button-container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    display: inline-block;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  }
+
+  button {
+    background-color: #008CBA;
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    font-size: 18px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  button:hover {
+    background-color: #005f75;
+  }
+</style>
+</head>
+<body>
+
+<div id="ip-container">
+  Loading IP info...
+</div>
+
+<div id="button-container">
+  <button id="clickBtn">Click Me</button>
+</div>
+
+<script>
+  // Fetch IP address and country
+  fetch('https://ipinfo.io/json?token=YOUR_TOKEN_HERE')
+    .then(response => response.json())
+    .then(data => {
+      const ipContainer = document.getElementById('ip-container');
+      ipContainer.textContent = `IP Address: ${data.ip} | Country: ${data.country}`;
+    })
+    .catch(err => {
+      document.getElementById('ip-container').textContent = "Unable to fetch IP info.";
+      console.error(err);
+    });
+
+  // Button click event
+  document.getElementById('clickBtn').addEventListener('click', () => {
+    alert('Button clicked!');
+  });
+</script>
+
+</body>
+</html>
