@@ -1,189 +1,207 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ad Automation 1</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Ad Automation with Popup Timer</title>
 <style>
-  body { font-family: Arial, sans-serif; margin:0; padding:0; background:#f0f4f7; }
-  header { display:flex; justify-content:space-between; align-items:center; background:#2196F3; color:white; padding:15px 30px; box-shadow:0 4px 10px rgba(0,0,0,0.2);}
-  header h1 { margin:0; font-size:20px; }
-  .switch { position: relative; display:inline-block; width:50px; height:24px; }
-  .switch input { opacity:0; width:0; height:0; }
-  .slider { position:absolute; cursor:pointer; top:0; left:0; right:0; bottom:0; background-color:#ccc; border-radius:34px; transition:.4s; }
-  .slider:before { position:absolute; content:""; height:18px; width:18px; left:3px; bottom:3px; background:white; border-radius:50%; transition:.4s; }
-  input:checked + .slider { background-color:#4CAF50; }
-  input:checked + .slider:before { transform:translateX(26px); }
-  .cards-container { display:flex; justify-content:center; gap:20px; flex-wrap:wrap; padding:40px 20px; }
-  .ad-card { background:white; padding:20px 25px; border-radius:15px; box-shadow:0 6px 15px rgba(0,0,0,0.15); width:250px; text-align:center; position:relative; }
-  .ad-card .heading { font-size:18px; font-weight:bold; margin-bottom:15px; color:#333; }
-  .ad-card button { background:#2196F3; color:white; border:none; padding:12px 25px; font-size:16px; border-radius:8px; cursor:pointer; font-weight:bold; width:100%; box-shadow:0 4px 8px rgba(0,0,0,0.2); transition:background .3s, transform .2s; margin-bottom:15px; }
-  .ad-card button:disabled { background:#ccc; cursor:not-allowed; box-shadow:none; }
-  .ad-card button:hover:not(:disabled) { background:#64B5F6; transform:translateY(-2px); }
-  .ad-card .ad-info { background:#e8f5e9; padding:12px 15px; border-radius:10px; text-align:left; font-size:15px; color:#2E7D32; box-shadow: inset 0 2px 4px rgba(0,0,0,0.1); }
-  .ad-card .ad-info p { margin:5px 0; }
-  .ad-card .ad-info span { font-weight:bold; }
-  .ad-card .card-switch { margin-top:10px; display:flex; align-items:center; justify-content:center; gap:10px; }
-  .ad-off-message { color:#f44336; font-weight:bold; font-size:16px; margin-top:15px; }
+  body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    background: #f0f4f7;
+  }
+  header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #2196f3;
+    color: white;
+    padding: 15px 30px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  }
+  header h1 {
+    font-size: 20px;
+    margin: 0;
+  }
+  .switch {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 24px;
+  }
+  .switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    border-radius: 34px;
+    transition: 0.4s;
+  }
+  .slider:before {
+    position: absolute;
+    content: "";
+    height: 18px;
+    width: 18px;
+    left: 3px;
+    bottom: 3px;
+    background: white;
+    border-radius: 50%;
+    transition: 0.4s;
+  }
+  input:checked + .slider {
+    background-color: #4caf50;
+  }
+  input:checked + .slider:before {
+    transform: translateX(26px);
+  }
+
+  .cards-container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding: 40px 20px;
+  }
+  .ad-card {
+    background: white;
+    padding: 20px;
+    border-radius: 15px;
+    width: 250px;
+    text-align: center;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+  }
+  .ad-card button {
+    background: #2196f3;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-size: 16px;
+    width: 100%;
+    cursor: pointer;
+    margin-bottom: 10px;
+  }
+  .ad-card button:hover {
+    background: #64b5f6;
+  }
+  #windowLog {
+    background: white;
+    border-radius: 10px;
+    padding: 15px;
+    margin: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  }
+  #windowLog h3 {
+    margin-top: 0;
+  }
+  #logList {
+    font-size: 14px;
+    line-height: 1.5;
+  }
 </style>
 </head>
 <body>
-
 <header>
-  <h1>Ad Automation Page</h1>
+  <h1>Ad Automation Popup System</h1>
   <label class="switch">
-    <input type="checkbox" id="powerSwitch">
+    <input type="checkbox" id="autoSwitch" />
     <span class="slider"></span>
   </label>
 </header>
 
 <div class="cards-container">
-  <div class="ad-card" id="div1">
-    <div class="heading">Ad Section 1</div>
-    <button class="btn" data-ad="https://otieu.com/4/10176538" data-final="https://example.com/final1">AD is Loading</button>
-    <div class="ad-info">
-      <p>Ads Loaded: <span class="adsLoaded">0</span></p>
-      <p>Button Clicked: <span class="btnClicked">0</span></p>
-    </div>
-    <div class="card-switch">
-      <label class="switch">
-        <input type="checkbox" class="cardSwitch">
-        <span class="slider"></span>
-      </label>
-      <span>Automation ON</span>
-    </div>
+  <div class="ad-card">
+    <h3>Ad 1</h3>
+    <button data-link="https://google.com">Open Ad 1</button>
   </div>
-
-  <div class="ad-card" id="div2">
-    <div class="heading">Ad Section 2</div>
-    <button class="btn" data-ad="https://otieu.com/4/10176500" data-final="https://example.com/final2">AD is Loading</button>
-    <div class="ad-info">
-      <p>Ads Loaded: <span class="adsLoaded">0</span></p>
-      <p>Button Clicked: <span class="btnClicked">0</span></p>
-    </div>
-    <div class="card-switch">
-      <label class="switch">
-        <input type="checkbox" class="cardSwitch">
-        <span class="slider"></span>
-      </label>
-      <span>Automation ON</span>
-    </div>
+  <div class="ad-card">
+    <h3>Ad 2</h3>
+    <button data-link="https://google.com">Open Ad 2</button>
   </div>
-
-  <div class="ad-card" id="div3">
-    <div class="heading">Ad Section 3</div>
-    <button class="btn" data-ad="https://otieu.com/4/10101867" data-final="https://example.com/final3">AD is Loading</button>
-    <div class="ad-info">
-      <p>Ads Loaded: <span class="adsLoaded">0</span></p>
-      <p>Button Clicked: <span class="btnClicked">0</span></p>
-    </div>
-    <div class="card-switch">
-      <label class="switch">
-        <input type="checkbox" class="cardSwitch">
-        <span class="slider"></span>
-      </label>
-      <span>Automation ON</span>
-    </div>
+  <div class="ad-card">
+    <h3>Ad 3</h3>
+    <button data-link="https://google.com">Open Ad 3</button>
   </div>
 </div>
 
+<div id="windowLog">
+  <h3>Window Log</h3>
+  <div id="logList"></div>
+</div>
+
 <script>
-  const powerSwitch = document.getElementById('powerSwitch');
-  const cards = document.querySelectorAll('.ad-card');
-  powerSwitch.checked = false;
+  const autoSwitch = document.getElementById("autoSwitch");
+  const buttons = document.querySelectorAll(".ad-card button");
+  const logList = document.getElementById("logList");
 
-  const sleep = ms => new Promise(r => setTimeout(r, ms));
+  let activeWindows = [];
 
-  function setupCard(card) {
-    const btn = card.querySelector('.btn');
-    const adsLoadedSpan = card.querySelector('.adsLoaded');
-    const btnClickedSpan = card.querySelector('.btnClicked');
-    const adLink = btn.dataset.ad;
-    const finalLink = btn.dataset.final;
-    const cardSwitch = card.querySelector('.cardSwitch');
-    let adsLoaded = 0, btnClicked = 0;
-
-    async function loadAd() {
-      if (!powerSwitch.checked || !cardSwitch.checked) {
-        btn.style.display = 'none';
-        if (!card.querySelector('.ad-off-message')) {
-          const msg = document.createElement('div');
-          msg.className = 'ad-off-message';
-          msg.textContent = 'Div is Off';
-          card.appendChild(msg);
-        }
-        return;
-      }
-
-      const offMsg = card.querySelector('.ad-off-message');
-      if (offMsg) offMsg.remove();
-
-      btn.style.display = 'block';
-      btn.disabled = true;
-      btn.textContent = 'AD is Loading...';
-      await sleep(3000);
-
-      if (!powerSwitch.checked || !cardSwitch.checked) return;
-
-      adsLoaded++;
-      adsLoadedSpan.textContent = adsLoaded;
-      btn.disabled = false;
-      btn.textContent = 'Click to Open Ad';
-    }
-
-    btn.addEventListener('click', async () => {
-      btnClicked++;
-      btnClickedSpan.textContent = btnClicked;
-
-      btn.disabled = true;
-      btn.textContent = 'Opening Ad...';
-      window.open(adLink, '_blank');
-
-      await sleep(5000); // Simulate ad watch time
-
-      btn.textContent = 'Redirecting...';
-      await sleep(1000);
-
-      // Redirect to final destination
-      window.location.href = finalLink;
-    });
-
-    cardSwitch.addEventListener('change', () => loadAd());
-
-    async function autoClick() {
-      if (powerSwitch.checked && cardSwitch.checked) {
-        await loadAd();
-        if (!btn.disabled) btn.click();
-      }
-    }
-
-    return { loadAd, autoClick };
+  function logMessage(msg) {
+    const div = document.createElement("div");
+    div.textContent = msg;
+    logList.prepend(div);
   }
 
-  const cardControllers = Array.from(cards).map(setupCard);
+  function openAdWindow(link, index) {
+    const w = window.open(link, "AdWindow" + index, "width=600,height=400");
+    if (!w) {
+      logMessage(`❌ Ad ${index + 1} blocked by popup blocker.`);
+      return;
+    }
+    activeWindows.push(w);
+    let secondsLeft = 20;
+    logMessage(`🟢 Ad ${index + 1} opened. Closing in ${secondsLeft}s...`);
 
-  powerSwitch.addEventListener('change', async () => {
-    cards.forEach(card => {
-      const cs = card.querySelector('.cardSwitch');
-      cs.checked = powerSwitch.checked;
-    });
-
-    if (powerSwitch.checked) {
-      for (let controller of cardControllers) {
-        await controller.autoClick();
-      }
-    } else {
-      cards.forEach(card => {
-        if (!card.querySelector('.ad-off-message')) {
-          const msg = document.createElement('div');
-          msg.className = 'ad-off-message';
-          msg.textContent = 'Div is Off';
-          card.appendChild(msg);
+    const timer = setInterval(() => {
+      secondsLeft--;
+      if (secondsLeft <= 0) {
+        clearInterval(timer);
+        try {
+          w.close();
+          logMessage(`🔴 Ad ${index + 1} closed automatically.`);
+        } catch {
+          logMessage(`⚠️ Could not close Ad ${index + 1}.`);
         }
+      }
+    }, 1000);
+  }
+
+  async function runAutomation() {
+    for (let i = 0; i < buttons.length; i++) {
+      if (!autoSwitch.checked) break;
+      openAdWindow(buttons[i].dataset.link, i);
+      await new Promise((r) => setTimeout(r, 5000)); // wait 5s between opens
+    }
+  }
+
+  autoSwitch.addEventListener("change", () => {
+    if (autoSwitch.checked) {
+      logMessage("🚀 Automation started.");
+      runAutomation();
+    } else {
+      logMessage("🛑 Automation stopped.");
+      activeWindows.forEach((w) => {
+        try {
+          w.close();
+        } catch {}
       });
+      activeWindows = [];
     }
   });
-</script>
 
+  buttons.forEach((btn, i) => {
+    btn.addEventListener("click", () => {
+      openAdWindow(btn.dataset.link, i);
+    });
+  });
+</script>
 </body>
 </html>
