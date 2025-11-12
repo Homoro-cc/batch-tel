@@ -3,125 +3,173 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ad Button Page</title>
+<title>Ad Automation</title>
 <style>
-  body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background: #f0f4f7;
-  }
-
-  /* Top-left div container */
-  #top-left {
-    position: absolute;
-    top: 20px;
-    left: 20px;
-    background: linear-gradient(135deg, #4CAF50, #2E7D32);
-    padding: 20px 30px;
-    border-radius: 15px;
-    box-shadow: 0 6px 15px rgba(0,0,0,0.2);
-    transition: transform 0.2s;
-  }
-
-  #top-left:hover {
-    transform: translateY(-3px);
-  }
-
-  /* Styled button */
-  button {
-    background-color: #FF9800;
-    color: white;
-    border: none;
-    padding: 15px 30px;
-    font-size: 18px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-weight: bold;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-    transition: background 0.3s, transform 0.2s;
-  }
-
-  button:disabled {
-    background-color: #ccc;
-    cursor: not-allowed;
-    box-shadow: none;
-  }
-
-  button:hover:not(:disabled) {
-    background-color: #FFB74D;
-    transform: translateY(-2px);
-  }
-
-  /* Counters/logs section */
-  #counters {
-    margin-top: 150px;
-    padding: 25px 30px;
-    max-width: 400px;
-    background-color: white;
-    border-radius: 15px;
-    box-shadow: 0 6px 15px rgba(0,0,0,0.1);
-    font-size: 18px;
-    line-height: 1.6;
-    margin-left: 20px;
-  }
-
-  #counters p {
-    margin: 10px 0;
-    font-weight: 500;
-    color: #333;
-  }
-
-  #counters span {
-    font-weight: bold;
-    color: #00796B;
-  }
+  body { font-family: Arial, sans-serif; margin:0; padding:0; background:#f0f4f7; }
+  header { display:flex; justify-content:space-between; align-items:center; background:#2196F3; color:white; padding:15px 30px; box-shadow:0 4px 10px rgba(0,0,0,0.2);}
+  header h1 { margin:0; font-size:20px; }
+  .switch { position: relative; display:inline-block; width:50px; height:24px; }
+  .switch input { opacity:0; width:0; height:0; }
+  .slider { position:absolute; cursor:pointer; top:0; left:0; right:0; bottom:0; background-color:#ccc; border-radius:34px; transition:.4s; }
+  .slider:before { position:absolute; content:""; height:18px; width:18px; left:3px; bottom:3px; background:white; border-radius:50%; transition:.4s; }
+  input:checked + .slider { background-color:#4CAF50; }
+  input:checked + .slider:before { transform:translateX(26px); }
+  .cards-container { display:flex; justify-content:center; gap:20px; flex-wrap:wrap; padding:40px 20px; }
+  .ad-card { background:white; padding:20px 25px; border-radius:15px; box-shadow:0 6px 15px rgba(0,0,0,0.15); width:250px; text-align:center; position:relative; }
+  .ad-card .heading { font-size:18px; font-weight:bold; margin-bottom:15px; color:#333; }
+  .ad-card button { background:#2196F3; color:white; border:none; padding:12px 25px; font-size:16px; border-radius:8px; cursor:pointer; font-weight:bold; width:100%; box-shadow:0 4px 8px rgba(0,0,0,0.2); transition:background .3s, transform .2s; margin-bottom:15px; }
+  .ad-card button:disabled { background:#ccc; cursor:not-allowed; box-shadow:none; }
+  .ad-card button:hover:not(:disabled) { background:#64B5F6; transform:translateY(-2px); }
+  .ad-card .ad-info { background:#e8f5e9; padding:12px 15px; border-radius:10px; text-align:left; font-size:15px; color:#2E7D32; box-shadow: inset 0 2px 4px rgba(0,0,0,0.1); }
+  .ad-card .ad-info p { margin:5px 0; }
+  .ad-card .ad-info span { font-weight:bold; }
+  .ad-card .card-switch { margin-top:10px; display:flex; align-items:center; justify-content:center; gap:10px; }
+  .ad-off-message { color:#f44336; font-weight:bold; font-size:16px; margin-top:15px; }
 </style>
 </head>
 <body>
 
-<div id="top-left">
-  <button id="btn1" disabled>AD is Loading</button>
-</div>
+<header>
+  <h1>Ad Automation Page</h1>
+  <label class="switch">
+    <input type="checkbox" id="powerSwitch">
+    <span class="slider"></span>
+  </label>
+</header>
 
-<div id="counters">
-  <p>Ads Loaded: <span id="adsLoaded">0</span></p>
-  <p>Button Clicked: <span id="btnClicked">0</span></p>
+<div class="cards-container">
+  <!-- Div 1 -->
+  <div class="ad-card" id="div1">
+    <div class="heading">Ad Section 1</div>
+    <button class="btn" data-link="https://otieu.com/4/10176538">AD is Loading</button>
+    <div class="ad-info">
+      <p>Ads Loaded: <span class="adsLoaded">0</span></p>
+      <p>Button Clicked: <span class="btnClicked">0</span></p>
+    </div>
+    <div class="card-switch">
+      <label class="switch">
+        <input type="checkbox" class="cardSwitch">
+        <span class="slider"></span>
+      </label>
+      <span>Automation ON</span>
+    </div>
+  </div>
+
+  <!-- Div 2 -->
+  <div class="ad-card" id="div2">
+    <div class="heading">Ad Section 2</div>
+    <button class="btn" data-link="https://otieu.com/4/10176500">AD is Loading</button>
+    <div class="ad-info">
+      <p>Ads Loaded: <span class="adsLoaded">0</span></p>
+      <p>Button Clicked: <span class="btnClicked">0</span></p>
+    </div>
+    <div class="card-switch">
+      <label class="switch">
+        <input type="checkbox" class="cardSwitch">
+        <span class="slider"></span>
+      </label>
+      <span>Automation ON</span>
+    </div>
+  </div>
+
+  <!-- Div 3 -->
+  <div class="ad-card" id="div3">
+    <div class="heading">Ad Section 3</div>
+    <button class="btn" data-link="https://otieu.com/4/10101867">AD is Loading</button>
+    <div class="ad-info">
+      <p>Ads Loaded: <span class="adsLoaded">0</span></p>
+      <p>Button Clicked: <span class="btnClicked">0</span></p>
+    </div>
+    <div class="card-switch">
+      <label class="switch">
+        <input type="checkbox" class="cardSwitch">
+        <span class="slider"></span>
+      </label>
+      <span>Automation ON</span>
+    </div>
+  </div>
 </div>
 
 <script>
-  const btn1 = document.getElementById('btn1');
-  const adsLoadedSpan = document.getElementById('adsLoaded');
-  const btnClickedSpan = document.getElementById('btnClicked');
+  const powerSwitch = document.getElementById('powerSwitch');
+  const cards = document.querySelectorAll('.ad-card');
 
-  let adsLoadedCount = 0;
-  let btnClickedCount = 0;
+  powerSwitch.checked = false; // default OFF
 
-  // Function to simulate ad loading
-  function loadAd() {
-    btn1.disabled = true;
-    btn1.textContent = "AD is Loading";
+  function sleep(ms){ return new Promise(resolve=>setTimeout(resolve,ms)); }
 
-    // Simulate ad load time (5 seconds)
-    setTimeout(() => {
-      btn1.disabled = false;
-      btn1.textContent = "Click Me";
-      adsLoadedCount++;
-      adsLoadedSpan.textContent = adsLoadedCount;
-    }, 5000);
+  function setupCard(card) {
+    const btn = card.querySelector('.btn');
+    const adsLoadedSpan = card.querySelector('.adsLoaded');
+    const btnClickedSpan = card.querySelector('.btnClicked');
+    const adLink = btn.dataset.link;
+    const cardSwitch = card.querySelector('.cardSwitch');
+    let adsLoadedCount = 0;
+    let btnClickedCount = 0;
+    let adTimeout;
+    
+    async function loadAd() {
+      if (!powerSwitch.checked || !cardSwitch.checked) {
+        btn.disabled = true; btn.style.display='none';
+        if (!card.querySelector('.ad-off-message')){
+          const msg = document.createElement('div'); msg.className='ad-off-message';
+          msg.textContent='Div is Off'; card.appendChild(msg);
+        }
+        return;
+      }
+      const offMsg = card.querySelector('.ad-off-message'); if(offMsg) offMsg.remove();
+      btn.style.display='block';
+      btn.disabled = true; btn.textContent='AD is Loading';
+
+      await sleep(5000); // simulate ad load
+      if (!powerSwitch.checked || !cardSwitch.checked) return; // recheck state
+      btn.disabled=false; btn.textContent='Click Me';
+      adsLoadedCount++; adsLoadedSpan.textContent=adsLoadedCount;
+    }
+
+    async function autoClick() {
+      if (powerSwitch.checked && cardSwitch.checked) {
+        await loadAd();
+        if(btn.disabled===false){ btn.click(); } 
+      }
+    }
+
+    btn.addEventListener('click', ()=>{
+      btnClickedCount++;
+      btnClickedSpan.textContent=btnClickedCount;
+    });
+
+    cardSwitch.addEventListener('change', ()=>{ loadAd(); });
+
+    return { loadAd, autoClick };
   }
 
-  // Initial ad load
-  loadAd();
+  const cardControllers = Array.from(cards).map(card=>setupCard(card));
 
-  // Button click
-  btn1.addEventListener('click', () => {
-    window.open('https://otieu.com/4/10176500', '_blank');
-    btnClickedCount++;
-    btnClickedSpan.textContent = btnClickedCount;
-
-    // After click, reload ad
-    loadAd();
+  // Page-level switch controls all card switches
+  powerSwitch.addEventListener('change', async ()=>{
+    cards.forEach((card,i)=>{
+      const cs = card.querySelector('.cardSwitch');
+      cs.checked = powerSwitch.checked;
+    });
+    if(powerSwitch.checked){
+      // start automation sequentially if all switches ON
+      for(let i=0;i<cardControllers.length;i++){
+        const card = cards[i];
+        const cs = card.querySelector('.cardSwitch');
+        if(cs.checked){
+          await cardControllers[i].autoClick();
+        }
+      }
+    }else{
+      cards.forEach(card=>{
+        const offMsg = card.querySelector('.ad-off-message'); 
+        if(!offMsg){
+          const msg = document.createElement('div'); msg.className='ad-off-message';
+          msg.textContent='Div is Off'; card.appendChild(msg);
+        }
+      });
+    }
   });
 </script>
 
