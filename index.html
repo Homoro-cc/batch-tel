@@ -9,33 +9,72 @@
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
+    background: #f0f4f7;
   }
 
+  /* Top-left div container */
   #top-left {
     position: absolute;
     top: 20px;
     left: 20px;
+    background: linear-gradient(135deg, #4CAF50, #2E7D32);
+    padding: 20px 30px;
+    border-radius: 15px;
+    box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+    transition: transform 0.2s;
   }
 
+  #top-left:hover {
+    transform: translateY(-3px);
+  }
+
+  /* Styled button */
   button {
-    background-color: #008CBA;
+    background-color: #FF9800;
     color: white;
     border: none;
     padding: 15px 30px;
     font-size: 18px;
-    border-radius: 5px;
+    border-radius: 8px;
     cursor: pointer;
+    font-weight: bold;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    transition: background 0.3s, transform 0.2s;
   }
 
   button:disabled {
     background-color: #ccc;
     cursor: not-allowed;
+    box-shadow: none;
   }
 
+  button:hover:not(:disabled) {
+    background-color: #FFB74D;
+    transform: translateY(-2px);
+  }
+
+  /* Counters/logs section */
   #counters {
-    margin-top: 100px;
-    padding: 20px;
+    margin-top: 150px;
+    padding: 25px 30px;
+    max-width: 400px;
+    background-color: white;
+    border-radius: 15px;
+    box-shadow: 0 6px 15px rgba(0,0,0,0.1);
     font-size: 18px;
+    line-height: 1.6;
+    margin-left: 20px;
+  }
+
+  #counters p {
+    margin: 10px 0;
+    font-weight: 500;
+    color: #333;
+  }
+
+  #counters span {
+    font-weight: bold;
+    color: #00796B;
   }
 </style>
 </head>
@@ -69,7 +108,7 @@
       btn1.textContent = "Click Me";
       adsLoadedCount++;
       adsLoadedSpan.textContent = adsLoadedCount;
-    }, 5000); // adjust time as needed
+    }, 5000);
   }
 
   // Initial ad load
