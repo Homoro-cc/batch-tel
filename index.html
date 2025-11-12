@@ -3,13 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>IP and Button Page [v]</title>
+<title>Ad Load Button</title>
 <style>
   body {
     font-family: Arial, sans-serif;
-    background-color: #f2f2f2;
     text-align: center;
     padding: 50px;
+    background-color: #f5f5f5;
   }
 
   #ip-container {
@@ -22,11 +22,7 @@
   }
 
   #button-container {
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 10px;
-    display: inline-block;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
   }
 
   button {
@@ -39,8 +35,20 @@
     cursor: pointer;
   }
 
-  button:hover {
-    background-color: #005f75;
+  button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+
+  #details {
+    margin-top: 20px;
+    background-color: #fff;
+    display: inline-block;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    max-width: 400px;
+    text-align: left;
   }
 </style>
 </head>
@@ -51,25 +59,59 @@
 </div>
 
 <div id="button-container">
-  <button id="clickBtn">Click Me</button>
+  <button id="adBtn" disabled>Waiting</button>
+</div>
+
+<div id="details">
+  <p>Details log:</p>
+  <ul id="log"></ul>
 </div>
 
 <script>
+  const adBtn = document.getElementById('adBtn');
+  const log = document.getElementById('log');
+
   // Fetch IP address and country
   fetch('https://ipinfo.io/json?token=3863c7eae44e00')
     .then(response => response.json())
     .then(data => {
-      const ipContainer = document.getElementById('ip-container');
-      ipContainer.textContent = `IP Address: ${data.ip} | Country: ${data.country}`;
+      document.getElementById('ip-container').textContent = `IP Address: ${data.ip} | Country: ${data.country}`;
     })
     .catch(err => {
       document.getElementById('ip-container').textContent = "Unable to fetch IP info.";
       console.error(err);
     });
 
-  // Button click event
-  document.getElementById('clickBtn').addEventListener('click', () => {
-    alert('Button clicked!');
+  // Function to simulate ad loading
+  function loadAd() {
+    adBtn.disabled = true;
+    adBtn.textContent = "Waiting";
+
+    // Add log
+    const li = document.createElement('li');
+    li.textContent = `${new Date().toLocaleTimeString()}: Ad is loading...`;
+    log.appendChild(li);
+
+    // Simulate ad load time (e.g., 5 seconds)
+    setTimeout(() => {
+      adBtn.disabled = false;
+      adBtn.textContent = "Click";
+      
+      const liLoaded = document.createElement('li');
+      liLoaded.textContent = `${new Date().toLocaleTimeString()}: Ad loaded. Button enabled.`;
+      log.appendChild(liLoaded);
+    }, 5000); // change 5000 to actual ad load time if available
+  }
+
+  // Initial ad load
+  loadAd();
+
+  // Button click
+  adBtn.addEventListener('click', () => {
+    window.open('https://otieu.com/4/10176500', '_blank');
+
+    // After click, reload ad
+    loadAd();
   });
 </script>
 
